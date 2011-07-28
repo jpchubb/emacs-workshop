@@ -1,0 +1,318 @@
+\def\kleene{^{*}}
+\providecommand{\abs}[1]{\lvert#1\rvert}
+\documentclass[10pt,landscape]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{multicol}
+\usepackage{calc}
+\usepackage{ifthen}
+\usepackage{textcomp}
+\usepackage{enumitem}
+\usepackage{verbatim}
+\usepackage[landscape]{geometry}
+
+% To make this come out properly in landscape mode, do one of the following
+% 1.
+%  pdflatex latexsheet.tex
+%
+% 2.
+%  latex latexsheet.tex
+%  dvips -P pdf  -t landscape latexsheet.dvi
+%  ps2pdf latexsheet.ps
+
+% If you're reading this, be prepared for confusion.  Making this was
+% a learning experience for me, and it shows.  Much of the placement
+% was hacked in; if you make it better, let me know...
+
+% 2008-04
+% Changed page margin code to use the geometry package. Also added code for
+% conditional page margins, depending on paper size. Thanks to Uwe Ziegenhagen
+% for the suggestions.
+
+% 2006-08
+% Made changes based on suggestions from Gene Cooperman. <gene at ccs.neu.edu>
+
+% To Do:
+% \listoffigures \listoftables
+% \setcounter{secnumdepth}{0}
+
+\setlist{noitemsep}
+% \setlist[1]{\labelindent=\parindent} % << Usually a good idea
+
+% This sets page margins to .5 inch if using letter paper, and to 1cm
+% if using A4 paper. (This probably isn't strictly necessary.)
+% If using another size paper, use default 1cm margins.
+\ifthenelse{\lengthtest { \paperwidth = 11in}}
+	{ \geometry{top=.5in,left=.5in,right=.5in,bottom=.5in} }
+	{\ifthenelse{ \lengthtest{ \paperwidth = 297mm}}
+		{\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
+		{\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
+	}
+
+% Turn off header and footer
+\pagestyle{empty}
+
+% Redefine section commands to use less space
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}%
+				{-1ex plus -.5ex minus -.2ex}%
+				{0.5ex plus .2ex}%x
+				{\normalfont\large\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+				{-1explus -.5ex minus -.2ex}%
+				{0.5ex plus .2ex}%
+				{\normalfont\normalsize\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}%
+				{-1ex plus -.5ex minus -.2ex}%
+				{1ex plus .2ex}%
+				{\normalfont\small\bfseries}}
+\makeatother
+
+% Don't print section numbers
+\setcounter{secnumdepth}{0}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt plus 0.5ex}
+% -----------------------------------------------------------------------
+
+\begin{document}
+
+\raggedright
+\small
+\begin{multicols}{3}
+
+% multicol parameters
+% These lengths are set only within the two main columns
+%\setlength{\columnseprule}{0.25pt}
+\setlength{\premulticols}{1pt}
+\setlength{\postmulticols}{1pt}
+\setlength{\multicolsep}{1pt}
+\setlength{\columnsep}{2pt}
+
+\begin{center}
+  \Large{\textbf{GNU Emacs Cheat Sheet}} \\
+\end{center}
+
+\newlength{\MyLen}
+
+\section{Key}
+\begin{tabular}{@{}ll@{}}
+  $<$B$>$ & Backspace.\\
+  $<$S$>$ & Space.\\
+  $<$T$>$ & Tab.\\
+  $<$E$>$ & Escape.\\
+  $<$n$>$ & Number.\\
+  $<$c$>$ & Command.\\
+\end{tabular}
+
+%% \section{GNU Emacs}
+\subsection{Cursor Movement}
+\begin{tabular}{@{}ll@{}}
+  {C-l} & Display current point at center of screen.\\
+  {C-f} & Move forward a character.\\
+  {C-b} & Move backwards a character.\\
+  {M-f} & Move forwards a word.\\
+  {M-b} & Move backwards a word.\\
+  {C-n} & Move to next line.\\
+  {C-p} & Move to previous line.\\
+  {C-a} & Move to beginning of line.\\
+  {C-e} & Move to end of line.\\
+  {M-a} & Move back to beginning of sentence.\\
+  {M-e} & Move forward to end of sentence.\\
+  {M-$<$} & Move to beginning of buffer.\\
+  {M-$>$} & Move to end of buffer.\\
+\end{tabular}
+\subsection{Windows, Buffers and Files}
+\begin{tabular}{@{}ll@{}}
+  {C-x 0} & Kill current window.\\
+  {C-x 1} & Kills all windows except for the current one.\\
+  {C-x 2} & Splits the window horizontal.\\
+  {C-x 3} & Splits the window vertical.\\
+  {C-x o} & Move to next window.\\
+  {C-M-v} & Scroll next window down.\\
+  {C-x s} & Save buffers.\\
+  {C-x C-w} & Write buffer to name.\\
+  {C-x C-v} & Find alternate file.\\
+  {C-x i} & Insert file at cursor.\\
+  {C-x b} & Switch to buffer.\\
+  {C-x k} & Kill current buffer.\\
+  {C-v} & Scroll buffer down.\\
+  {M-v} & Scroll buffer up.\\
+  {C-x C-b} & List buffers.\\
+  {C-x C-f} & Find file.\\
+  {C-x C-s} & Save file.\\ 
+\end{tabular}
+\subsection{External Commands}
+\begin{tabular}{@{}ll@{}}
+  {M-!} & Execute shell command.\\
+  {M-$|$} & Execute shell command on region.\\
+  {M-x compile} & Run \texttt{make} over buffer.\\
+  {M-x shell} & Start a shell session.\\
+  {M-x gdb} & Start \texttt{gdb} in a new buffer.\\
+  {M-x grep} & Invokes \texttt{grep} and prints results.\\
+  {M-x man} & View \texttt{man} page.\\
+\end{tabular}
+\subsection{Keyboard Macros}
+\begin{tabular}{@{}ll@{}}
+  {C-x (} & Start recording macro.\\
+  {C-x )} & Finish recording macro.\\
+  {C-x e} & Call last set keyboard macro.\\
+\end{tabular}
+\subsection{Manipulate Text}
+\begin{tabular}{@{}ll@{}}
+  {C-d} & Delete the next character after the cursor.\\
+  {M-$<$B$>$} & Kill the word previous to the cursor.\\
+  {M-d} & Kill the next word after the cursor.\\
+  {C-k} & Kill to end of line.\\
+  {C-u 0 C-k} & Kill to beginning of line.\\
+  {M-k} & Kill to the end of the current sentence.\\
+  {C-w} & Move the selected text to a buffer.\\
+  {M-w} & Copy the selected text to a buffer.\\
+  {C-y} & Paste the contents of the buffer to display.\\
+  {M-z} & Zap until character.\\
+  {C-t} & Transpose two characters.\\
+  {M-t} & Transpose two words.\\
+  {C-x C-t} & Transpose two lines.\\
+  {M-c} & Uppercase words from cursor position.\\
+  {M-l} & Lowercase words from cursor position.\\
+  {M-c} & Uppercase character at cursor position.\\
+\end{tabular}
+\subsection{General Commands}
+\begin{tabular}{@{}ll@{}}
+  {C-x u} & Undo.\\
+  {C-g} & Kill current command.\\
+  {C-x C-c} & Close GNU Emacs.\\
+  {C-z} & Suspend GNU Emacs.\\
+  {C-s} & Search forwards.\\
+  {C-r} & Search backwards.\\
+  {C-s C-w} & Search for word under cursor.\\
+  {M-\%} & Search and replace.\\
+  {C-M-\%} & Search and replace (regex).\\ 
+  {C-u $<$n$>$ $<$c$>$} & Repeat $<$c$>$ $<$n$>$ times.\\
+  {M-/} & Auto-complete.\\
+  {C-x z} & Repeat previous command.\\
+  {M-;} & Comment selected region.\\
+  {C-$<$S$>$} & Enter select mode.\\
+  {M-@} & Select word.\\
+  {M-h} & Select paragraph.\\
+  {M-g} & Go to line.\\
+  {C-x f} & Set column fill limit.\\
+  {M-q} & Fill paragraph.\\
+  {M-\$} & Check spelling of word.\\
+\end{tabular}
+\subsection{Modal Commands}
+\subsubsection{Major Modes}
+\begin{tabular}{@{}ll@{}}
+  {M-x latex-mode} & LaTeX mode.\\
+  {M-x haskell-mode} & Haskell mode.\\
+  {M-x c-mode} & C mode.\\
+  {M-x python-mode} & Python mode.\\
+  {M-x text-mode} & Text mode.\\
+  {M-x lisp-mode} & Lisp mode.\\
+\end{tabular}
+\subsubsection{Minor Modes}
+\begin{tabular}{@{}ll@{}}
+  {M-x flyspell-mode} & Automatic spell check.\\
+  {M-x flymake-mode} & On-the-fly syntax checker.\\
+\end{tabular}
+\subsubsection{{\LaTeX} Mode}
+\begin{tabular}{@{}ll@{}}
+  {C-c C-e} & Close {\LaTeX} block.\\
+  {C-c C-o} & Insert {\LaTeX} block.\\
+  {C-c C-f} & Compile {\LaTeX} to PDF.\\
+  {C-j} & End paragraph.\\
+\end{tabular}
+\subsubsection{Haskell Mode}
+\begin{tabular}{@{}ll@{}}
+  {C-c C-l} & Start GHCi session.\\
+\end{tabular}
+\subsubsection{C Mode}
+\begin{tabular}{@{}ll@{}}
+  {C-c C-a} & Electrification.\\
+  {M-a} & Beginning of statement.\\
+  {M-e} & End of statement.\\
+  {M-C-a} & Beginning of function.\\
+  {M-C-e} & End of function.\\
+  {C-j} & Insert a new line and indent.\\
+\end{tabular}
+\subsubsection{Python Mode}
+\begin{tabular}{@{}ll@{}}
+  {C-c !} & Start an interactive Python session.\\
+  {C-j} & Insert a new line and indent.\\
+  {C-M-a} & Go to the beginning of the function or class.\\
+  {C-M-e} & Go to the end of the function or class.\\
+  {C-M-h} & Select the function or class.\\
+\end{tabular}
+\subsubsection{Text Mode}
+\begin{tabular}{@{}ll@{}}
+  {M-s} & Center line.\\
+  {M-S} & Center paragraph.\\
+\end{tabular}
+\subsubsection{Lisp Mode}
+\begin{tabular}{@{}ll@{}}
+  {C-x C-e} & Evaluate expression.\\
+\end{tabular}
+\subsection{Help Commands}
+\begin{tabular}{@{}ll@{}}
+  {C-h a} & Apropos help.\\
+  {C-h b} & Show key bindings.\\
+  {C-h c} & Show command key-stroke invokes.\\
+  {C-h f} & Describe function.\\
+  {C-h F} & Show GNU Emacs FAQ.\\
+  {C-h i} & Info help.\\
+  {C-h k} & Describe key.\\
+  {C-h m} & Describe mode.\\
+  {C-h p} & List GNU Emacs packages.\\
+  {C-h t} & Run tutorial.\\
+  {C-h v} & Show variable information.\\
+  {C-h w} & Show key-stroke command.\\
+  {C-h ?} & General help.\\
+\end{tabular}
+
+%% \section{GNU Screen}
+%% \subsection{General Commands}
+%% \begin{tabular}{@{}ll@{}}
+%%   {C-z ?} & Show key bindings.\\
+%%   {C-z c} & Create new window.\\
+%%   {C-z [} & Enter copy (scrollback) mode.\\
+%%   {C-z C-[} & Enter copy (scrollback) mode.\\
+%%   {C-z $<$E$>$} & Enter copy (scrollback) mode.\\
+%%   {C-z ]} & Paste buffer to the current window.\\
+%%   {C-z C-]} & Paste buffer to the current window.\\
+%%   {C-z i} & Show information about the current window.\\
+%%   {C-z C-i} & Show information about the current window.\\
+%%   {C-z ''} & Prompt for window and switch.\\
+%%   {C-z [0..9]} & Switch to window number 0..9.\\
+%%   {C-z $<$S$>$} & Switch to next window.\\
+%%   {C-z n} & Switch to next window.\\
+%%   {C-z C-n} & Switch to next window.\\
+%%   {C-z C-z} & Switch to the previous window.\\
+%%   {C-z p} & Switch to previous window.\\
+%%   {C-z C-p} & Switch to previous window.\\
+%%   {C-z C-h} & Switch to previous window.\\
+%%   {C-z $<$B$>$} & Switch to previous window.\\
+%%   {C-z N} & Show the number/title of the current window.\\
+%%   {C-z Ctrl-d} & Detach screen session.\\
+%%   {C-z S} & Splits screen horizontally.\\
+%%   {C-z $<$T$>$} & Switches input focus to next region.\\
+%%   {C-z k} & Destroy current region (with message).\\
+%%   {C-z C-k} & Destroy current region (with message).\\
+%%   {C-z X} & Kills the current region.\\
+%% \end{tabular}
+
+%% \section{GNU Bash}
+%% \subsubsection{Keyboard Combinations}
+%% \begin{tabular}{@{}ll@{}}
+%%   {C-r} & Search history.\\
+%%   {C-d} & Exit.\\
+%% \end{tabular}
+%% \subsubsection{Terminal Commands}
+%% \begin{tabular}{@{}ll@{}}
+%%   {ls} & List directories.\\
+%%   {pwd} & Present wording directory.\\
+%% \end{tabular}
+
+\rule{0.3\linewidth}{0.25pt}
+\scriptsize\\
+Copyleft \textcopyleft\ 2009 Sohum Banerjea (2010 Matthew Ball)
+\end{multicols}
+\end{document}
